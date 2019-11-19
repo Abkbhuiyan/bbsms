@@ -17,7 +17,7 @@ class CreateBloodBanksTable extends Migration
             $table->bigIncrements('id');
             $table->string('name');
             $table->string('hospital_approval_number')->unique();
-            $table->decimal('lattitude',10,8)->nullable();
+            $table->decimal('latitude',10,8)->nullable();
             $table->decimal('longitude',11,8)->nullable();
             $table->text('address');
             $table->string('email')->unique();

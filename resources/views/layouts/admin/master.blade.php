@@ -17,6 +17,7 @@
     </div>
     <div class="page-wrapper">
         <div class="content">
+            @include('layouts.admin._messages')
            @yield('content')
         </div>
         <div class="notification-box">

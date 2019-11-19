@@ -1,21 +1,20 @@
 @extends('layouts.admin.master')
-@section('title','Update Blood Bank Info')
+@section('title','Add New Donor')
 
 @section('content')
     <div class="row">
         <div class="col-lg-8 offset-lg-2">
-            <h4 class="page-title">Update Blood Bnak Info</h4>
+            <h4 class="page-title">Add New Blood Donor</h4>
         </div>
     </div>
     <div class="row">
         <div class="col-lg-8 offset-lg-2">
-            <form action="{{route('bloodBank.update',$blood_bank->id)}}" method="post" >
+            <form action="{{route('bloodDonor.store')}}" method="post" enctype="multipart/form-data">
                 @csrf
-                @method('put')
                 <div class="row">
-                    @include('bloodBank._form')
+                    @include('bloodDonor._form')
                     <div class="col-sm-12 m-t-20 text-center">
-                        <button type="submit" name="submit" class="btn btn-primary submit-btn">Update</button>
+                        <button type="submit" name="submit" class="btn btn-primary submit-btn">Save</button>
                     </div>
                 </div>
             </form>

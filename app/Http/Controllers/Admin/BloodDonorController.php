@@ -3,6 +3,7 @@
 namespace App\Http\Controllers\Admin;
 
 use App\Http\Controllers\Controller;
+use App\BloodDonor;
 use Illuminate\Http\Request;
 
 class BloodDonorController extends Controller
@@ -14,7 +15,7 @@ class BloodDonorController extends Controller
      */
     public function index()
     {
-        //
+
     }
 
     /**
@@ -24,7 +25,7 @@ class BloodDonorController extends Controller
      */
     public function create()
     {
-        //
+        return view('bloodDonor.create');
     }
 
     /**

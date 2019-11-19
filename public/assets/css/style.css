@@ -3213,6 +3213,9 @@ html.menu-opened body {
 	margin-top: 30px;
 	text-align: center;
 }
+.see-all .see-all-links{
+    display: inline-block;
+}
 .see-all .see-all-btn {
 	border: 1px solid #e2e2e2;
 	border-radius: 5px;

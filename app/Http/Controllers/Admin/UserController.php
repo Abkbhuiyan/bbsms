@@ -3,6 +3,7 @@
 namespace App\Http\Controllers\Admin;
 
 use App\Http\Controllers\Controller;
+use App\User;
 use Illuminate\Http\Request;
 
 class UserController extends Controller
@@ -14,7 +15,8 @@ class UserController extends Controller
      */
     public function index()
     {
-        //
+        $data['admins'] = User::paginate(5);
+        return view('admin.adminsList',$data);
     }
 
     /**
@@ -37,9 +39,27 @@ class UserController extends Controller
     {
         $request->validate([
             'name' => 'required',
+            'email' => 'required|unique:users',
+            'password' => 'required|confirmed',
+            'phone' => 'required|max:15',
+            'status' => 'required',
+            'image'=>'mimes:jpeg,png|max:2048',
         ]);
 
-        ddd($request->all());
+        $user = $request->except('_token','password','image');
+        $user['password'] = bcrypt($request->password);
+
+        if($request->hasFile('image')){
+            $file = $request->file('image');
+            $file_name = encrypt(time().rand(00000,99999)).'.'.$file->getClientOriginalExtension();
+            $path = 'assets/img/user';
+            $file->move($path,$file_name);
+            $user['image'] = $path.'/'.$file_name;
+        }
+        //dd($user);
+        User::create($user);
+        session()->flash('successMessage','Admin Successfully Created!');
+        return redirect()->route('admin.dashboard');
     }
 
     /**
@@ -59,9 +79,10 @@ class UserController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function edit($id)
+    public function edit(User $user)
     {
-        //
+       $data['user'] = $user;
+       return view('admin.edit',$data);
     }
 
     /**
@@ -82,8 +103,15 @@ class UserController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function destroy($id)
+    public function destroy(User $user)
     {
-        //
+        if(file_exists($user->image))
+        {
+            unlink($user->image);
+        }
+
+        $user->delete();
+        session()->flash('successMessage','Admin Successfully Deleted!');
+        return redirect()->route('admin.dashboard');
     }
 }

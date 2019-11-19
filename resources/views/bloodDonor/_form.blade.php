@@ -1,7 +1,7 @@
     <div class="col-sm-6">
         <div class="form-group">
             <label>Full Name</label>
-            <input name="name" value="{{ old('name',isset($user->name)?$user->name:null) }}"   class="form-control" type="text">
+            <input name="name" value="{{ old('name')}}"   class="form-control" type="text">
             @error('name')
                 <div class="text-danger">{{ $message }}</div>
             @enderror
@@ -11,7 +11,7 @@
     <div class="col-sm-6">
         <div class="form-group">
             <label>Email <span class="text-danger">*</span></label>
-            <input name="email" value="{{ old('email',isset($user->email)?$user->email:null) }}" class="form-control" type="email">
+            <input name="email" value="{{ old('email')}}" class="form-control" type="email">
             @error('email')
                 <div class="text-danger">{{ $message }}</div>
             @enderror
@@ -26,17 +26,12 @@
             @enderror
         </div>
     </div>
-    <div class="col-sm-6">
-        <div class="form-group">
-            <label>Confirm Password<span class="text-danger">*</span></label>
-            <input name="password_confirmation" class="form-control" type="password">
-        </div>
-    </div>
+
     <div class="col-sm-6">
         <div class="form-group">
             <label>Date of Birth</label>
             <div class="cal-icon">
-                <input name="dob" value="{{ old('dob',isset($user->dob)?$user->dob:null) }}" type="date" class="form-control">
+                <input name="dob" value="{{ old('dob') }}" type="date" class="form-control">
             </div>
         </div>
     </div>
@@ -45,16 +40,17 @@
             <label class="gen-label">Gender:</label>
             <div class="form-check-inline">
                 <label class="form-check-label">
-                    <input type="radio" name="gender" value="female" class="form-check-input">Male
+                    <input @if(old('gender')=='female'){{checked}}@endif checked type="radio" name="gender" value="female" class="form-check-input">Male
                 </label>
             </div>
             <div class="form-check-inline">
                 <label class="form-check-label">
-                    <input type="radio" name="gender" value="male" class="form-check-input">Female
+                    <input @if(old('gender')=='male'){{checked}}@endif type="radio" name="gender" value="male" class="form-check-input">Female
                 </label>
             </div>
         </div>
     </div>
+
     <div class="col-sm-12">
         <div class="form-group">
             <label>Address</label>

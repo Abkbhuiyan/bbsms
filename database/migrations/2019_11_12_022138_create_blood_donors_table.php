@@ -27,6 +27,8 @@ class CreateBloodDonorsTable extends Migration
             $table->string('password');
             $table->string('image')->nullable();
             $table->string('status');
+            $table->unsignedBigInteger('approved_by')->nullable();
+            $table->foreign('approved_by')->references('id')->on('users');
             $table->timestamps();
         });
     }

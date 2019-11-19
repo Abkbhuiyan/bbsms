@@ -21,9 +21,10 @@ class CreateUsersTable extends Migration
             $table->string('password');
             $table->date('dob')->nullable();
             $table->string('gender')->nullable();
-            $table->text('adress')->nullable();
+            $table->text('address')->nullable();
             $table->string('phone');
             $table->string('image')->nullable();
+            $table->string('status');
             $table->rememberToken();
             $table->timestamps();
         });
