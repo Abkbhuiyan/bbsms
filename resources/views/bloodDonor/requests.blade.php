@@ -1,24 +1,30 @@
 @extends('layouts.admin.master')
-@section('title','Approved Blood Banks List')
+@section('title','Pending Blood Donors List')
 @section('content')
     <div class="row">
         <div class="col-sm-8 col-6">
-            <h4 class="page-title">Current Blood Banks Requests</h4>
+            <h4 class="page-title">Current Blood Donor Requests</h4>
         </div>
         <div class="col-sm-4 col-6 text-right m-b-30">
-            <a href="{{route('bloodBank.create')}}" class="btn btn-primary btn-rounded float-right"><i class="fa fa-plus"></i> Add Blood Bank</a>
+            <a href="{{route('bloodDonor.create')}}" class="btn btn-primary btn-rounded float-right"><i class="fa fa-plus"></i> Add Blood Donor</a>
         </div>
     </div>
     <div class="row filter-row">
-        <div class="col-sm-6 col-md-5 col-lg-5 col-xl-5 col-12">
+        <div class="col-sm-6 col-md-3 col-lg-3 col-xl-3 col-12">
             <div class="form-group form-focus">
-                <label class="focus-label">Blood Bank Name</label>
+                <label class="focus-label">Donor Name</label>
                 <input type="text" class="form-control floating">
             </div>
         </div>
-        <div class="col-sm-6 col-md-5 col-lg-5 col-xl-5 col-12">
+        <div class="col-sm-6 col-md-3 col-lg-3 col-xl-3 col-12">
             <div class="form-group form-focus">
-                <label class="focus-label">Blood Registration Number</label>
+                <label class="focus-label">Email</label>
+                <input type="text" class="form-control floating">
+            </div>
+        </div>
+        <div class="col-sm-6 col-md-3 col-lg-3 col-xl-3 col-12">
+            <div class="form-group form-focus">
+                <label class="focus-label">Phone</label>
                 <input type="text" class="form-control floating">
             </div>
         </div>
@@ -32,26 +38,26 @@
                 <table class="table table-striped custom-table mb-0 datatable">
                     <thead>
                     <tr>
-                        <th>Blood Bank Name</th>
-                        <th>Registration Number</th>
-                        <th>Address</th>
+                        <th>Donor Name</th>
+                        <th>NID No</th>
+                        <th>Phone</th>
                         <th>Email</th>
                         <th>Approve</th>
                         <th>Reject</th>
                     </tr>
                     </thead>
                     <tbody>
-                    @foreach($bloodBanks as $bloodBank)
+                    @foreach($bloodDonors as $bloodDonor)
                         <tr>
                             <td>
-                                <a href="{{route('bloodBank.show',$bloodBank->id)}}" class="avatar">R</a>
-                                <h2><a href="{{route('bloodBank.show',$bloodBank->id)}}">{{$bloodBank->name}}</a></h2>
+                                <a href="{{route('bloodDonor.show',$bloodDonor->id)}}" class="avatar">R</a>
+                                <h2><a href="{{route('bloodDonor.show',$bloodDonor->id)}}">{{$bloodDonor->name}}</a></h2>
                             </td>
-                            <td>{{$bloodBank->hospital_approval_number}}</td>
-                            <td>{{$bloodBank->address}}</td>
-                            <td>{{$bloodBank->email}}</td>
+                            <td>{{$bloodDonor->nid_no}}</td>
+                            <td>{{$bloodDonor->phone}}</td>
+                            <td>{{$bloodDonor->email}}</td>
                             <td >
-                                <form method="post" action="{{ route('bloodBank.updateRequest',$bloodBank->id) }}">
+                                <form method="post" action="{{ route('bloodDonor.updateRequest',$bloodDonor->id) }}">
                                     @csrf
                                     @method('put')
                                     <input type="hidden" value="active" name="status" id="" >
@@ -60,7 +66,7 @@
                                 </form>
                             </td>
                             <td >
-                                <form method="post" action="{{route('bloodBank.updateRequest',$bloodBank->id) }}">
+                                <form method="post" action="{{route('bloodDonor.updateRequest',$bloodDonor->id) }}">
                                     @csrf
                                     @method('put')
                                     <input type="hidden" value="rejected" name="status" id="" >
@@ -78,7 +84,7 @@
             <div class="row">
                 <div class="col-sm-12">
                     <div class="see-all">
-                        <span class="see-all-links" >{{$bloodBanks->render()}}</span>
+                        <span class="see-all-links" >{{$bloodDonors->render()}}</span>
                     </div>
                 </div>
             </div>

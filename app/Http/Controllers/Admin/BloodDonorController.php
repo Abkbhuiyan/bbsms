@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers\Admin;
 
+use App\BloodGroup;
 use App\Http\Controllers\Controller;
 use App\BloodDonor;
 use Illuminate\Http\Request;
@@ -15,7 +16,8 @@ class BloodDonorController extends Controller
      */
     public function index()
     {
-
+        $data['bloodDonors'] = BloodDonor::where('status','active')->paginate(5);
+        return view('bloodDonor.index',$data);
     }
 
     /**
@@ -25,7 +27,8 @@ class BloodDonorController extends Controller
      */
     public function create()
     {
-        return view('bloodDonor.create');
+        $data['groups'] = BloodGroup::all();
+        return view('bloodDonor.create',$data);
     }
 
     /**
@@ -36,7 +39,26 @@ class BloodDonorController extends Controller
      */
     public function store(Request $request)
     {
-        //
+        $request->validate([
+            'name' => 'required',
+            'email' => 'required|email',
+            'phone' => 'required',
+            'dob' => 'required',
+            'blood_group_id' =>'required',
+        ]);
+        $bloodDonor = $request->except('_token','password');
+        if($request->has('password')){
+            $bloodDonor['password'] = bcrypt($request->password);
+        }else{
+            $bloodDonor['password'] = bcrypt('123456');
+        }
+        if(!$request->has('status')){
+            $bloodDonor['status'] = 'active';
+        }
+   // dd($bloodDonor);
+        BloodDonor::create($bloodDonor);
+        session()->flash('successMessage','Blood Donor Successfully Created!');
+        return redirect()->route('bloodDonor.index');
     }
 
     /**
@@ -47,7 +69,7 @@ class BloodDonorController extends Controller
      */
     public function show(BloodDonor $bloodDonor)
     {
-        //
+
     }
 
     /**
@@ -58,7 +80,7 @@ class BloodDonorController extends Controller
      */
     public function edit(BloodDonor $bloodDonor)
     {
-        //
+        dd($bloodDonor);
     }
 
     /**
@@ -81,6 +103,20 @@ class BloodDonorController extends Controller
      */
     public function destroy(BloodDonor $bloodDonor)
     {
-        //
+        $bloodDonor->delete();
+        session()->flash('successMessage','Blood Donor Successfully Deleted!');
+        return redirect()->route('bloodDonor.index');
+    }
+
+    public  function requests(){
+        $data['bloodDonors'] = BloodDonor::where('status','pending')->paginate(5);
+        return view('bloodDonor.requests',$data);
+    }
+    public function updateRequest(Request $request, BloodDonor $bloodDonor)
+    {
+        $bloodDonor->status = $request->status;
+        $bloodDonor->approved_by = $request->approved_by;
+        $bloodDonor->save();
+        return redirect()->back();
     }
 }

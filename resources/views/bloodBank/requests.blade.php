@@ -1,5 +1,5 @@
 @extends('layouts.admin.master')
-@section('title','Approved Blood Banks List')
+@section('title','Pending Blood Banks List')
 @section('content')
     <div class="row">
         <div class="col-sm-8 col-6">

@@ -25,6 +25,14 @@
                 </ul>
             </li>
             <li class="submenu">
+                <a href="#"><i class="fa fa-handshake-o"></i> <span> Blood Donors </span> <span class="menu-arrow"></span></a>
+                <ul style="display: none;">
+                    <li><a href="{{route('bloodDonor.index')}}">Donors List</a></li>
+                    <li><a href="{{ route('bloodDonor.create') }}">Add Donor</a></li>
+                    <li><a href="{{ route('bloodDonor.requests') }}">Donor Requests</a></li>
+                </ul>
+            </li>
+            <li class="submenu">
                 <a href="#"><i class="fa fa-money"></i> <span> Accounts </span> <span class="menu-arrow"></span></a>
                 <ul style="display: none;">
                     <li><a href="invoices.html">Invoices</a></li>

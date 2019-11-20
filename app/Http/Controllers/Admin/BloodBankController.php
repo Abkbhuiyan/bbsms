@@ -122,14 +122,6 @@ class BloodBankController extends Controller
         $bloodBank->save();
         return redirect()->route('bloodBank.index');
     }
-    public function updateRequest(Request $request, BloodBank $bloodBank)
-    {
-
-        $bloodBank->status = $request->status;
-        $bloodBank->approved_by = $request->approved_by;
-        $bloodBank->save();
-        return redirect()->back();
-    }
     /**
      * Remove the specified resource from storage.
      *
@@ -146,5 +138,13 @@ class BloodBankController extends Controller
     public  function requests(){
         $data['bloodBanks'] = BloodBank::where('status','pending')->paginate(5);
         return view('bloodBank.requests',$data);
+    }
+    public function updateRequest(Request $request, BloodBank $bloodBank)
+    {
+
+        $bloodBank->status = $request->status;
+        $bloodBank->approved_by = $request->approved_by;
+        $bloodBank->save();
+        return redirect()->back();
     }
 }

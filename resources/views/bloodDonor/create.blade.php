@@ -9,7 +9,7 @@
     </div>
     <div class="row">
         <div class="col-lg-8 offset-lg-2">
-            <form action="{{route('bloodDonor.store')}}" method="post" enctype="multipart/form-data">
+            <form action="{{route('bloodDonor.store')}}" method="post" >
                 @csrf
                 <div class="row">
                     @include('bloodDonor._form')
