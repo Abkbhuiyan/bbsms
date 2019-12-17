@@ -21,13 +21,14 @@ class CreateVoluntaryOrganizationsTable extends Migration
             $table->string('admin_contact');
             $table->string('district');
             $table->text('address');
+            $table->string('logo');
             $table->string('website_address')->nullable();
             $table->string('username');
             $table->string('email')->unique();
             $table->string('password');
             $table->string('status');
             $table->unsignedBigInteger('approved_by')->nullable();
-            $table->foreign('approved_by')->references('id')->on('users')->onDelete('Restrict')->onUpdate('No Action');
+            $table->foreign('approved_by')->references('id')->on('admins')->onDelete('Restrict')->onUpdate('No Action');
             $table->timestamps();
         });
     }

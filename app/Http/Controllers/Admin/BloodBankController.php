@@ -16,7 +16,7 @@ class BloodBankController extends Controller
     public function index()
     {
         $data['bloodBanks'] = BloodBank::where('status','active')->paginate(5);
-        return view('bloodBank.index',$data);
+        return view('admins.bloodBank.index',$data);
         //return view('bloodBank.bloodBanksList',$data);
     }
 
@@ -27,7 +27,7 @@ class BloodBankController extends Controller
      */
     public function create()
     {
-        return view('bloodBank/create');
+        return view('admins.bloodBank/create');
     }
 
     /**
@@ -77,7 +77,7 @@ class BloodBankController extends Controller
     public function edit(BloodBank $bloodBank)
     {
         $data['blood_bank'] = $bloodBank;
-        return view('bloodBank.edit',$data);
+        return view('admins.bloodBank.edit',$data);
     }
 
     /**
@@ -137,11 +137,14 @@ class BloodBankController extends Controller
 
     public  function requests(){
         $data['bloodBanks'] = BloodBank::where('status','pending')->paginate(5);
-        return view('bloodBank.requests',$data);
+        return view('admins.bloodBank.requests',$data);
+    }
+    public  function rejectedBloodBanks(){
+        $data['bloodBanks'] = BloodBank::where('status','rejected')->paginate(5);
+        return view('admins.bloodBank.rejected',$data);
     }
     public function updateRequest(Request $request, BloodBank $bloodBank)
     {
-
         $bloodBank->status = $request->status;
         $bloodBank->approved_by = $request->approved_by;
         $bloodBank->save();

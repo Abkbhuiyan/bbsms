@@ -4,7 +4,7 @@ namespace App\Http\Controllers\Admin;
 
 use App\BloodGroup;
 use App\Http\Controllers\Controller;
-use App\BloodDonor;
+use App\User;
 use Illuminate\Http\Request;
 
 class BloodDonorController extends Controller
@@ -16,8 +16,8 @@ class BloodDonorController extends Controller
      */
     public function index()
     {
-        $data['bloodDonors'] = BloodDonor::where('status','active')->paginate(5);
-        return view('bloodDonor.index',$data);
+        $data['bloodDonors'] = User::where('status','active')->paginate(5);
+        return view('admins.bloodDonor.index',$data);
     }
 
     /**
@@ -28,7 +28,7 @@ class BloodDonorController extends Controller
     public function create()
     {
         $data['groups'] = BloodGroup::all();
-        return view('bloodDonor.create',$data);
+        return view('admins.bloodDonor.create',$data);
     }
 
     /**
@@ -56,7 +56,7 @@ class BloodDonorController extends Controller
             $bloodDonor['status'] = 'active';
         }
    // dd($bloodDonor);
-        BloodDonor::create($bloodDonor);
+        User::create($bloodDonor);
         session()->flash('successMessage','Blood Donor Successfully Created!');
         return redirect()->route('bloodDonor.index');
     }
@@ -64,10 +64,10 @@ class BloodDonorController extends Controller
     /**
      * Display the specified resource.
      *
-     * @param  \App\BloodDonor  $bloodDonor
+     * @param  \App\User  $bloodDonor
      * @return \Illuminate\Http\Response
      */
-    public function show(BloodDonor $bloodDonor)
+    public function show(User $bloodDonor)
     {
 
     }
@@ -75,10 +75,10 @@ class BloodDonorController extends Controller
     /**
      * Show the form for editing the specified resource.
      *
-     * @param  \App\BloodDonor  $bloodDonor
+     * @param  \App\User  $bloodDonor
      * @return \Illuminate\Http\Response
      */
-    public function edit(BloodDonor $bloodDonor)
+    public function edit(User $bloodDonor)
     {
         dd($bloodDonor);
     }
@@ -87,10 +87,10 @@ class BloodDonorController extends Controller
      * Update the specified resource in storage.
      *
      * @param  \Illuminate\Http\Request  $request
-     * @param  \App\BloodDonor  $bloodDonor
+     * @param  \App\User  $bloodDonor
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, BloodDonor $bloodDonor)
+    public function update(Request $request, User $bloodDonor)
     {
         //
     }
@@ -98,21 +98,25 @@ class BloodDonorController extends Controller
     /**
      * Remove the specified resource from storage.
      *
-     * @param  \App\BloodDonor  $bloodDonor
+     * @param  \App\User  $bloodDonor
      * @return \Illuminate\Http\Response
      */
-    public function destroy(BloodDonor $bloodDonor)
+    public function destroy(User $bloodDonor)
     {
         $bloodDonor->delete();
         session()->flash('successMessage','Blood Donor Successfully Deleted!');
-        return redirect()->route('bloodDonor.index');
+        return redirect()->route('admins.bloodDonor.index');
     }
 
     public  function requests(){
-        $data['bloodDonors'] = BloodDonor::where('status','pending')->paginate(5);
-        return view('bloodDonor.requests',$data);
+        $data['bloodDonors'] = User::where('status','pending')->paginate(5);
+        return view('admins.bloodDonor.requests',$data);
     }
-    public function updateRequest(Request $request, BloodDonor $bloodDonor)
+    public  function rejectedDonors(){
+        $data['bloodDonors'] = User::where('status','rejected')->paginate(5);
+        return view('admins.bloodDonor.rejectedDonors',$data);
+    }
+    public function updateRequest(Request $request, User $bloodDonor)
     {
         $bloodDonor->status = $request->status;
         $bloodDonor->approved_by = $request->approved_by;

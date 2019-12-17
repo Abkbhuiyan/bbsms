@@ -15,11 +15,10 @@ class CreateDonorLocationsTable extends Migration
     {
         Schema::create('donor_locations', function (Blueprint $table) {
             $table->bigIncrements('id');
-            $table->unsignedBigInteger('donor_id');
-            $table->foreign('donor_id')->references('id')->on('blood_donors')->onDelete('CASCADE')->onUpdate('NO ACTION');
-            $table->decimal('lattitude',10,8);
-            $table->decimal('longitude',11,8);
-            $table->text('address');
+            $table->unsignedBigInteger('user_id');
+            $table->foreign('user_id')->references('id')->on('users')->onDelete('CASCADE')->onUpdate('NO ACTION');
+            $table->decimal('lattitude',10,8)->default(0.0);
+            $table->decimal('longitude',11,8)->default(0.0);
             $table->timestamps();
         });
     }

@@ -15,8 +15,8 @@ class CreateBloodTransfusionHistoriesTable extends Migration
     {
         Schema::create('blood_transfusion_histories', function (Blueprint $table) {
             $table->bigIncrements('id');
-            $table->unsignedBigInteger('donor_id');
-            $table->foreign('donor_id')->references('id')->on('blood_donors')->onUpdate('NO ACTION')->onDelete('NO ACTION');
+            $table->unsignedBigInteger('user_id');
+            $table->foreign('user_id')->references('id')->on('users')->onUpdate('NO ACTION')->onDelete('NO ACTION');
             $table->unsignedBigInteger('mo_id');
             $table->foreign('mo_id')->references('id')->on('medical_officers')->onUpdate('NO ACTION')->onDelete('NO ACTION');
             $table->string('transfusion_type');

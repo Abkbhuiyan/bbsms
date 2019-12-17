@@ -15,8 +15,8 @@ class CreateDonorSerologyHistoriesTable extends Migration
     {
         Schema::create('donor_serology_histories', function (Blueprint $table) {
             $table->bigIncrements('id');
-            $table->unsignedBigInteger('donor_id');
-            $table->foreign('donor_id')->references('id')->on('blood_donors')->onDelete('NO ACTION')->onUpdate('NO ACTION');
+            $table->unsignedBigInteger('user_id');
+            $table->foreign('user_id')->references('id')->on('users')->onDelete('NO ACTION')->onUpdate('NO ACTION');
             $table->unsignedBigInteger('test_id');
             $table->foreign('test_id')->references('id')->on('serology_tests')->onDelete('NO ACTION')->onUpdate('NO ACTION');
             $table->string('result');

@@ -22,6 +22,7 @@
                     <li><a href="{{route('bloodBank.index')}}">Blood Bank List</a></li>
                     <li><a href="{{ route('bloodBank.create') }}">Add New Blood Bank</a></li>
                     <li><a href="{{ route('bloodBank.requests') }}">New Requests</a></li>
+                    <li><a href="{{ route('bloodBank.rejects') }}">Rejected Blood Banks</a></li>
                 </ul>
             </li>
             <li class="submenu">
@@ -30,6 +31,16 @@
                     <li><a href="{{route('bloodDonor.index')}}">Donors List</a></li>
                     <li><a href="{{ route('bloodDonor.create') }}">Add Donor</a></li>
                     <li><a href="{{ route('bloodDonor.requests') }}">Donor Requests</a></li>
+                    <li><a href="{{ route('bloodDonor.rejects') }}">Rejected Blood Donors</a></li>
+                </ul>
+            </li>
+            <li class="submenu">
+                <a href="#"><i class="fa fa-institution"></i> <span>Voluntary Orgs </span> <span class="menu-arrow"></span></a>
+                <ul style="display: none;">
+                    <li><a href="{{route('voluntaryOrganization.index')}}">Organizations List</a></li>
+                    <li><a href="{{ route('voluntaryOrganization.create') }}">Add a Organization</a></li>
+                    <li><a href="{{ route('voluntaryOrganization.requests') }}">Organization Requests</a></li>
+                    <li><a href="{{ route('voluntaryOrganization.rejects') }}">Rejected Organizations</a></li>
                 </ul>
             </li>
             <li class="submenu">

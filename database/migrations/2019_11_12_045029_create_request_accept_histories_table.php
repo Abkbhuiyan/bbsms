@@ -15,8 +15,8 @@ class CreateRequestAcceptHistoriesTable extends Migration
     {
         Schema::create('request_accept_histories', function (Blueprint $table) {
             $table->bigIncrements('id');
-            $table->unsignedBigInteger('donor_id');
-            $table->foreign('donor_id')->references('id')->on('blood_donors')->onUpdate('NO ACTION')->onDelete('NO ACTION');
+            $table->unsignedBigInteger('user_id');
+            $table->foreign('user_id')->references('id')->on('users')->onUpdate('NO ACTION')->onDelete('NO ACTION');
             $table->unsignedBigInteger('request_id');
             $table->foreign('request_id')->references('id')->on('blood_requests')->onUpdate('NO ACTION')->onDelete('CASCADE');
             $table->timestamps();

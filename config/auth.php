@@ -42,9 +42,29 @@ return [
         ],
 
         'api' => [
-            'driver' => 'token',
+            'driver' => 'passport',
             'provider' => 'users',
-            'hash' => false,
+        ],
+
+        'seeker' => [
+            'driver' => 'session',
+            'provider' => 'seekers',
+        ],
+        'admin' => [
+            'driver' => 'session',
+            'provider' => 'admins',
+        ],
+        'mo' => [
+            'driver' => 'session',
+            'provider' => 'officers',
+        ],
+        'vOrg' => [
+            'driver' => 'session',
+            'provider' => 'organizations',
+        ],
+        'bb' => [
+            'driver' => 'session',
+            'provider' => 'banks',
         ],
     ],
 
@@ -70,7 +90,26 @@ return [
             'driver' => 'eloquent',
             'model' => App\User::class,
         ],
-
+        'seekers' => [
+            'driver' => 'eloquent',
+            'model' => App\BloodSeeker::class,
+        ],
+        'admins' => [
+            'driver' => 'eloquent',
+            'model' => App\Admin::class,
+        ],
+        'banks' => [
+            'driver' => 'eloquent',
+            'model' => App\BloodBank::class,
+        ],
+        'officers' => [
+            'driver' => 'eloquent',
+            'model' => App\MedicalOfficer::class,
+        ],
+        'organizations' => [
+            'driver' => 'eloquent',
+            'model' => App\VoluntaryOrganization::class,
+        ],
         // 'users' => [
         //     'driver' => 'database',
         //     'table' => 'users',

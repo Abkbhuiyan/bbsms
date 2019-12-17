@@ -9,6 +9,6 @@ class BloodGroup extends Model
     //
 
     public function blodDonor(){
-        return $this->hasMany(BloodDonor::class);
+        return $this->hasMany(User::class);
     }
 }

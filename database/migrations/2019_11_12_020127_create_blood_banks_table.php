@@ -24,7 +24,7 @@ class CreateBloodBanksTable extends Migration
             $table->string('password');
             $table->string('status');
             $table->unsignedBigInteger('approved_by')->nullable();
-            $table->foreign('approved_by')->references('id')->on('users');
+            $table->foreign('approved_by')->references('id')->on('admins');
             $table->timestamps();
         });
     }
