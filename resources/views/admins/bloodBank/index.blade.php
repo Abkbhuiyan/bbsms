@@ -1,5 +1,54 @@
 @extends('layouts.admin.master')
 @section('title','Approved Blood Banks List')
+@section('custom_js')
+{{--<script>--}}
+{{--    $(function () {--}}
+{{--        $(document).on('keyup','#searchByName',function(){--}}
+{{--            let name = $('#searchByName').val();--}}
+{{--            if(name !=''){--}}
+{{--                //alert(name);--}}
+{{--                let url = " {{route('bloodBank.searchByName')}}";--}}
+{{--                $.ajax({--}}
+{{--                    url:url,--}}
+{{--                    data:{--}}
+{{--                        name:name,--}}
+{{--                    },--}}
+{{--                    type: 'get',--}}
+{{--                    dataType: "json",--}}
+{{--                    success: function (response) {--}}
+{{--                       $('#searchData').html(response.result);--}}
+{{--                    }--}}
+{{--                });--}}
+{{--            }--}}
+{{--        });--}}
+{{--    });--}}
+
+{{--</script>--}}
+{{--<script>--}}
+{{--    $(function () {--}}
+{{--        $(document).on('keyup','#searchByReg',function(){--}}
+{{--            let name = $('#searchByReg').val();--}}
+{{--            if(name !=''){--}}
+{{--                //alert(name);--}}
+{{--                let url = " {{route('bloodBank.searchByReg')}}";--}}
+{{--                $.ajax({--}}
+{{--                    url:url,--}}
+{{--                    data:{--}}
+{{--                        name:name,--}}
+{{--                    },--}}
+{{--                    type: 'get',--}}
+{{--                    dataType: "json",--}}
+{{--                    success: function (response) {--}}
+{{--                        $('#searchData').html(response.result);--}}
+{{--                    }--}}
+{{--                });--}}
+{{--            }--}}
+{{--        });--}}
+{{--    });--}}
+
+{{--</script>--}}
+<script src="{{asset('assets/js/search.js')}}"></script>
+@endsection
 @section('content')
     <div class="row">
         <div class="col-sm-8 col-6">
@@ -9,27 +58,31 @@
             <a href="{{route('bloodBank.create')}}" class="btn btn-primary btn-rounded float-right"><i class="fa fa-plus"></i> Add Blood Bank</a>
         </div>
     </div>
+    <form action="{{route('bloodBank.index')}}" method="get">
     <div class="row filter-row">
-        <div class="col-sm-6 col-md-5 col-lg-5 col-xl-5 col-12">
-            <div class="form-group form-focus">
-                <label class="focus-label">Blood Bank Name</label>
-                <input type="text" class="form-control floating">
+
+            <div class="col-sm-6 col-md-5 col-lg-5 col-xl-5 col-12">
+                <div class="form-group form-focus">
+                    <label class="focus-label">Blood Bank Name</label>
+                    <input required name="searchByName" id="searchByName" type="text" cus-url="{{route('bloodBank.searchByName')}}" class="form-control floating" >
+                </div>
             </div>
-        </div>
-        <div class="col-sm-6 col-md-5 col-lg-5 col-xl-5 col-12">
-            <div class="form-group form-focus">
-                <label class="focus-label">Blood Registration Number</label>
-                <input type="text" class="form-control floating">
+            <div class="col-sm-6 col-md-5 col-lg-5 col-xl-5 col-12">
+                <div class="form-group form-focus">
+                    <label class="focus-label">Blood Bank RegistrationNumber</label>
+                    <input required name="searchByReg" id="searchByReg" type="text" cus-url1="{{route('bloodBank.searchByReg')}}" class="form-control floating">
+                </div>
             </div>
-        </div>
-        <div class="col-sm-6 col-md-2 col-lg-2 col-xl-2 col-12">
-            <a href="#" class="btn btn-success btn-block"> Search </a>
-        </div>
+            <div class="col-sm-6 col-md-2 col-lg-2 col-xl-2 col-12">
+                <button class="btn btn-success btn-block" type="submit"> Search </button>
+            </div>
+
     </div>
+    </form>
     <div class="row">
         <div class="col-md-12">
-            <div class="table-responsive">
-                <table class="table table-striped custom-table mb-0 datatable">
+            <div class="table-responsive" >
+                <table class="table table-striped custom-table mb-0 datatable" id="tSearch">
                     <thead>
                     <tr>
                         <th>Blood Bank Name</th>
@@ -39,7 +92,7 @@
                         <th class="text-right">Actions</th>
                     </tr>
                     </thead>
-                    <tbody>
+                    <tbody id="searchData">
                     @foreach($bloodBanks as $bloodBank)
                         <tr>
                             <td>
@@ -85,7 +138,7 @@
             <div class="row">
                 <div class="col-sm-12">
                     <div class="see-all">
-                        <span class="see-all-links" >{{$bloodBanks->render()}}</span>
+                        <span class="see-all-links" >{{$bloodBanks->links()}}</span>
                     </div>
                 </div>
             </div>

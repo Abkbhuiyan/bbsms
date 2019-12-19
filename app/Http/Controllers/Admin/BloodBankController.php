@@ -13,9 +13,16 @@ class BloodBankController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
-    public function index()
+    public function index(Request $request)
     {
-        $data['bloodBanks'] = BloodBank::where('status','active')->paginate(5);
+        $query = BloodBank::where('status','active');
+        if(isset($request->searchByName) && $request->searchByName != null){
+            $query = $query->where('name','like','%'.$request->searchByName.'%');
+        }
+        if(isset($request->searchByReg) && $request->searchByReg != null){
+            $query = $query->where('hospital_approval_number','like','%'.$request->searchByReg.'%');
+        }
+        $data['bloodBanks'] = $query->orderBy('id','DESC')->paginate(10);
         return view('admins.bloodBank.index',$data);
         //return view('bloodBank.bloodBanksList',$data);
     }
@@ -149,5 +156,74 @@ class BloodBankController extends Controller
         $bloodBank->approved_by = $request->approved_by;
         $bloodBank->save();
         return redirect()->back();
+    }
+
+    public function searchByName(Request $request){
+        $bloodBanks= BloodBank::where('name','like','%'.$request->name.'%')->where('status','active')->orderBy('id','DESC')->paginate(10);
+        $output='';
+        if ($bloodBanks->count()>0){
+
+            foreach ($bloodBanks as $bloodBank) {
+                $output .=" <tr>
+                            <td>
+                                <a href=\"".route('bloodBank.show',$bloodBank->id)."\" class=\"avatar\">R</a>
+                                <h2><a href=\"".route('bloodBank.show',$bloodBank->id)."\">$bloodBank->name</a></h2>
+                            </td>
+                            <td>$bloodBank->hospital_approval_number</td>
+                            <td>$bloodBank->address</td>
+                            <td>$bloodBank->email</td>                    
+                            <td class=\"text-right\">
+                                <div class=\"dropdown dropdown-action\">
+                                    <a href=\"#\" class=\"action-icon dropdown-toggle\" data-toggle=\"dropdown\" aria-expanded=\"false\"><i class=\"fa fa-ellipsis-v\"></i></a>
+                                    <div class=\"dropdown-menu dropdown-menu-right\">
+                                        <a class=\"dropdown-item\" href=\"".route('bloodBank.edit',$bloodBank->id)."\"><i class=\"fa fa-pencil m-r-5\"></i> Edit</a>
+                                        <form method=\"post\" action=\" ".route('bloodBank.destroy',$bloodBank->id)." \">                     
+                                            <input type=\"hidden\" name=\"_token\" value=\"PoHVUjujf2I78xEpFSzV7Cf1vTPBiULUrJTuXJhZ\">   
+                                             <input type=\"hidden\" name=\"_method\" value=\"delete\">   
+                                            <button class=\"dropdown-item fa fa-trash-o m-r-5\" onclick=\"return confirm('Are you confirm to delete?')\"> Delete</button>
+                                        </form>
+                                    </div>
+                                </div>
+                            </td>
+                        </tr>";
+           }
+       }
+
+         $data['result'] = $output;
+        return json_encode($data);
+    }
+    public function searchByReg(Request $request){
+        $bloodBanks= BloodBank::where('hospital_approval_number','like','%'.$request->name.'%')->where('status','active')->orderBy('id','DESC')->paginate(10);
+        $output='';
+        if ($bloodBanks->count()>0){
+
+            foreach ($bloodBanks as $bloodBank) {
+                $output .=" <tr>
+                            <td>
+                                <a href=\"".route('bloodBank.show',$bloodBank->id)."\" class=\"avatar\">R</a>
+                                <h2><a href=\"".route('bloodBank.show',$bloodBank->id)."\">$bloodBank->name</a></h2>
+                            </td>
+                            <td>$bloodBank->hospital_approval_number</td>
+                            <td>$bloodBank->address</td>
+                            <td>$bloodBank->email</td>                    
+                            <td class=\"text-right\">
+                                <div class=\"dropdown dropdown-action\">
+                                    <a href=\"#\" class=\"action-icon dropdown-toggle\" data-toggle=\"dropdown\" aria-expanded=\"false\"><i class=\"fa fa-ellipsis-v\"></i></a>
+                                    <div class=\"dropdown-menu dropdown-menu-right\">
+                                        <a class=\"dropdown-item\" href=\"".route('bloodBank.edit',$bloodBank->id)."\"><i class=\"fa fa-pencil m-r-5\"></i> Edit</a>
+                                        <form method=\"post\" action=\" ".route('bloodBank.destroy',$bloodBank->id)." \">                     
+                                            <input type=\"hidden\" name=\"_token\" value=\"PoHVUjujf2I78xEpFSzV7Cf1vTPBiULUrJTuXJhZ\">   
+                                             <input type=\"hidden\" name=\"_method\" value=\"delete\">   
+                                            <button class=\"dropdown-item fa fa-trash-o m-r-5\" onclick=\"return confirm('Are you confirm to delete?')\"> Delete</button>
+                                        </form>
+                                    </div>
+                                </div>
+                            </td>
+                        </tr>";
+           }
+       }
+
+         $data['result'] = $output;
+        return json_encode($data);
     }
 }

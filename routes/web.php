@@ -32,6 +32,8 @@ Route::middleware('auth:admin')->prefix('admin')->namespace('Admin')->group(func
     Route::get('bloodBank/requests','BloodBankController@requests')->name('bloodBank.requests');
     Route::get('bloodBank/rejected','BloodBankController@rejectedBloodBanks')->name('bloodBank.rejects');
     Route::put('bloodBank/updateRequest/{bloodBank}','BloodBankController@updateRequest')->name('bloodBank.updateRequest');
+    Route::get('bloodBank/searchByName}','BloodBankController@searchByName')->name('bloodBank.searchByName');
+    Route::get('bloodBank/searchByReg}','BloodBankController@searchByReg')->name('bloodBank.searchByReg');
     Route::resource('bloodBank','BloodBankController');
     ///blood donors manipulation routes
     Route::get('bloodDonor/requests','BloodDonorController@requests')->name('bloodDonor.requests');
