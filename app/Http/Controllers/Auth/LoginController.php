@@ -97,12 +97,6 @@ class LoginController extends Controller
        return $this->sendFailedLoginResponse($request);
         //return back()->withInput($request->only('email', 'remember'));
     }
-    protected function sendFailedLoginResponse(Request $request)
-    {
-        throw ValidationException::withMessages([
-            $this->username() => [trans('auth.failed')],
-        ]);
-    }
     public function medicalOfficerLogin(Request $request){
         $this->validate($request, [
             'email'   => 'required|email',
@@ -110,9 +104,10 @@ class LoginController extends Controller
         ]);
         if (Auth::guard('mo')->attempt(['email' => $request->email, 'password' => $request->password], $request->get('remember'))) {
 
-            return redirect()->intended('/medicalOfficer');
+            return redirect()->intended('/medicalOfficer/dashboard');
         }
-        return back()->withInput($request->only('email', 'remember'));
+        return $this->sendFailedLoginResponse($request);
+        //return back()->withInput($request->only('email', 'remember'));
     }
     public function voluntaryOrganizationLogin(Request $request){
         $this->validate($request, [
@@ -124,6 +119,12 @@ class LoginController extends Controller
             return redirect()->intended('/voluntaryOrganization');
         }
         return back()->withInput($request->only('email', 'remember'));
+    }
+    protected function sendFailedLoginResponse(Request $request)
+    {
+        throw ValidationException::withMessages([
+            $this->username() => [trans('auth.failed')],
+        ]);
     }
     public function allLogout(){
         Auth::logout();

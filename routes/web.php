@@ -19,7 +19,28 @@ Auth::routes();
 Route::get('/login/seeker', 'Auth\LoginController@showSeekerLoginForm');
 Route::post('/login/seeker', 'Auth\LoginController@seekerLogin');
 
+
 Route::get('/signOut','Auth\LoginController@allLogout')->middleware('auth');
+
+
+
+///#                 medical officer routes
+/// all routedtes for medical officers
+Route::get('/login/mo', 'Auth\LoginController@showMedicalOfficerLoginForm')->name('bloodBank.login');
+Route::post('/login/mo', 'Auth\LoginController@medicalOfficerLogin');
+Route::middleware('auth:mo')->prefix('medicalOfficer')->namespace('MedicalOfficer')->group(function () {
+    Route::get('dashboard', 'MedicalOfficerController@index')->name('medicalOfficer.dashboard');
+    Route::get('index', 'MedicalOfficerController@searhcDonor')->name('medicalOfficer.donor.search');
+    Route::get('bloodDonor/create', 'BloodDonorController@create')->name('medicalOfficer.donor.create');
+    Route::post('bloodDonor/create', 'BloodDonorController@save')->name('medicalOfficer.donor.store');
+    Route::get('donor/searchByName','BloodDonorController@searchByName')->name('medicalOfficer.donor.searchByName');
+    Route::get('donor/searchByReg','BloodDonorController@searchByReg')->name('medicalOfficer.donor.searchByReg');
+    Route::get('donor/searchByPhone','BloodDonorController@searchByReg')->name('medicalOfficer.donor.searchByPhone');
+    Route::get('donor/updateSerologyHistory/{donorId}','MedicalOfficerController@newSerology')->name('medicalOfficer.donor.newSerology');
+    Route::get('donor/transfusionHistory/{donorId}','MedicalOfficerController@newTransfusion')->name('medicalOfficer.donor.newTransfusion');
+});
+
+
                         #///blood bank routes
 /// here all routes for the blood bank is done
 Route::get('/bloodBank/newBloodBank', 'BloodBank\BloodBankController@create')->name('bloodBank.new');
@@ -34,11 +55,13 @@ Route::middleware('auth:bb')->prefix('bloodBank')->namespace('BloodBank')->group
     Route::get('new', 'MedicalOfficerController@newMo')->name('bloodBank.mo.new');
     Route::post('new', 'MedicalOfficerController@saveMo')->name('bloodBank.mo.save');
     Route::put('bloodBank/mo/updateRequest/{medicalOfficer}','MedicalOfficerController@updateStatus')->name('bloodBank.mo.update');
-    Route::get('bloodBank/mo/searchByName}','MedicalOfficerController@searchByName')->name('bloodBank.mo.searchByName');
-    Route::get('bloodBank/mo/searchByReg}','MedicalOfficerController@searchByReg')->name('bloodBank.mo.searchByReg');
+    Route::get('bloodBank/mo/searchByName','MedicalOfficerController@searchByName')->name('bloodBank.mo.searchByName');
+    Route::get('bloodBank/mo/searchByReg','MedicalOfficerController@searchByReg')->name('bloodBank.mo.searchByReg');
     Route::get('bloodBank/mo/{id}','MedicalOfficerController@searchByReg')->name('bloodBank.mo.edit');
     Route::delete('bloodBank/mo/{id}','MedicalOfficerController@searchByReg')->name('bloodBank.mo.destroy');
 });
+
+
 
 //admin routes
 Route::get('/login/admin', 'Auth\LoginController@showAdminLoginForm');
@@ -53,8 +76,8 @@ Route::middleware('auth:admin')->prefix('admin')->namespace('Admin')->group(func
     Route::get('bloodBank/requests','BloodBankController@requests')->name('bloodBank.requests');
     Route::get('bloodBank/rejected','BloodBankController@rejectedBloodBanks')->name('bloodBank.rejects');
     Route::put('bloodBank/updateRequest/{bloodBank}','BloodBankController@updateRequest')->name('bloodBank.updateRequest');
-    Route::get('bloodBank/searchByName}','BloodBankController@searchByName')->name('bloodBank.searchByName');
-    Route::get('bloodBank/searchByReg}','BloodBankController@searchByReg')->name('bloodBank.searchByReg');
+    Route::get('bloodBank/searchByName','BloodBankController@searchByName')->name('bloodBank.searchByName');
+    Route::get('bloodBank/searchByReg','BloodBankController@searchByReg')->name('bloodBank.searchByReg');
     Route::resource('bloodBank','BloodBankController');
     ///blood donors manipulation routes
     Route::get('bloodDonor/requests','BloodDonorController@requests')->name('bloodDonor.requests');
