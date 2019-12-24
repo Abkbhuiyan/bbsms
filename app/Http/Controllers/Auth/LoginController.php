@@ -92,7 +92,7 @@ class LoginController extends Controller
         ]);
         if (Auth::guard('bb')->attempt(['email' => $request->email, 'password' => $request->password], $request->get('remember'))) {
 
-            return redirect()->intended('/');
+            return redirect()->intended('/bloodBank/dashboard');
         }
        return $this->sendFailedLoginResponse($request);
         //return back()->withInput($request->only('email', 'remember'));

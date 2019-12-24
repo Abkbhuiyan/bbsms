@@ -18,4 +18,18 @@ class MedicalOfficer extends Authenticatable
     protected $hidden = [
         'password', 'remember_token',
     ];
+
+    public function bloodBank(){
+        return $this->belongsTo(BloodBank::class);
+    }
+
+    public function admin(){
+        return $this->belongsTo(Admin::class);
+    }
+    public function donor_serology(){
+        return $this->hasMany(DonorSerologyHistory::class);
+    }
+    public function transfusionHistory(){
+        return $this->hasMany(BloodTransfusionHistory::class,'id');
+    }
 }

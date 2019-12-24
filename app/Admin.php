@@ -40,4 +40,7 @@ class Admin extends Authenticatable
     public function bloodBank(){
         return $this->hasMany(BloodBank::class);
     }
+    public function medicalOfficers(){
+        return $this->hasMany(MedicalOfficer::class);
+    }
 }

@@ -22,7 +22,8 @@ class CreateMedicalOfficersTable extends Migration
             $table->text('address');
             $table->unsignedBigInteger('blood_bank_id');
             $table->foreign('blood_bank_id')->references('id')->on('blood_banks')->onDelete('RESTRICT')->onUpdate('NO ACTION');
-            $table->string('status');
+            $table->string('status')->default('pending');
+            $table->string('job_status')->default('active');
             $table->unsignedBigInteger('approved_by')->nullable();
             $table->foreign('approved_by')->references('id')->on('admins')->onDelete('RESTRICT')->onUpdate('NO ACTION');
             $table->timestamps();

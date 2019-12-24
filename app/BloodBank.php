@@ -15,7 +15,10 @@ class BloodBank extends Authenticatable
     protected $hidden = [
         'password', 'remember_token',
     ];
-    public function user(){
-        return $this->belongsTo(Users::class);
+    public function admin(){
+        return $this->belongsTo(Admin::class);
+    }
+    public function medicalOfficer(){
+        return $this->hasMany(MedicalOfficer::class);
     }
 }

@@ -20,17 +20,24 @@ Route::get('/login/seeker', 'Auth\LoginController@showSeekerLoginForm');
 Route::post('/login/seeker', 'Auth\LoginController@seekerLogin');
 
 Route::get('/signOut','Auth\LoginController@allLogout')->middleware('auth');
-///blood bank routes
+                        #///blood bank routes
+/// here all routes for the blood bank is done
 Route::get('/bloodBank/newBloodBank', 'BloodBank\BloodBankController@create')->name('bloodBank.new');
 Route::post('/bloodBank/newBloodBank', 'BloodBank\BloodBankController@store')->name('bloodBank.save');
 Route::get('/login/bb', 'Auth\LoginController@showBloodBankLoginForm')->name('bloodBank.login');
 Route::post('/login/bb', 'Auth\LoginController@bloodBankLogin');
 Route::middleware('auth:bb')->prefix('bloodBank')->namespace('BloodBank')->group(function () {
-    Route::get('/', function () {
-        return view('bloodBanks.dashboard');
-    })->name('bloodBank.dashboard');
+    Route::get('dashboard','BloodBankController@index')->name('bloodBank.dashboard');
     ///admin manipulation routes
-    Route::resource('bloodBank', 'BloodBankController');
+    Route::get('index', 'MedicalOfficerController@index')->name('bloodBank.active');
+    Route::get('inactive', 'MedicalOfficerController@inactiveIndex')->name('bloodBank.inactive');
+    Route::get('new', 'MedicalOfficerController@newMo')->name('bloodBank.mo.new');
+    Route::post('new', 'MedicalOfficerController@saveMo')->name('bloodBank.mo.save');
+    Route::put('bloodBank/mo/updateRequest/{medicalOfficer}','MedicalOfficerController@updateStatus')->name('bloodBank.mo.update');
+    Route::get('bloodBank/mo/searchByName}','MedicalOfficerController@searchByName')->name('bloodBank.mo.searchByName');
+    Route::get('bloodBank/mo/searchByReg}','MedicalOfficerController@searchByReg')->name('bloodBank.mo.searchByReg');
+    Route::get('bloodBank/mo/{id}','MedicalOfficerController@searchByReg')->name('bloodBank.mo.edit');
+    Route::delete('bloodBank/mo/{id}','MedicalOfficerController@searchByReg')->name('bloodBank.mo.destroy');
 });
 
 //admin routes
