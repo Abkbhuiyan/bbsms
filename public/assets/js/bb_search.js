@@ -5,10 +5,13 @@ $(function () {
         if(name !=''){
             //alert(name);
             let url = $(this).attr('cus-url');
+            let status = $(this).attr('cus-status');
+           // alert(status);
             $.ajax({
                 url:url,
                 data:{
                     name:name,
+                    status:status,
                 },
                 type: 'get',
                 dataType: "json",
@@ -23,10 +26,13 @@ $(function () {
         if(name !=''){
             //alert(name);
             let url = $(this).attr('cus-url1');
+            let status = $(this).attr('cus-status');
+            //alert(status);
             $.ajax({
                 url:url,
                 data:{
                     name:name,
+                    status:status,
                 },
                 type: 'get',
                 dataType: "json",

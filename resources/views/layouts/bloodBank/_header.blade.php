@@ -1,5 +1,5 @@
 <div class="header-left">
-    <a href="{{route('admin.dashboard')}}" class="logo">
+    <a href="{{route('bloodBank.dashboard')}}" class="logo">
         <img src="{{asset('assets/img/logo/logo.png')}}" width="35" height="35" alt=""> <span>BBSMS</span>
     </a>
 </div>
@@ -10,14 +10,15 @@
     <li class="nav-item dropdown has-arrow">
         <a href="#" class="dropdown-toggle nav-link user-link" data-toggle="dropdown">
                         <span class="user-img">
-							<img class="rounded-circle" src="@if(auth()->user()->image != null){{asset(auth()->user()->image)}}@else {{asset('assets/img/user.jpg')}}@endif" width="24" alt="Admin">
+							<img class="rounded-circle" src="{{asset('assets/img/user.jpg')}}" width="24" alt="Admin">
 							<span class="status online"></span>
 						</span>
             <span>{{auth()->user()->name}}</span>
         </a>
         <div class="dropdown-menu">
-            <a class="dropdown-item" href="profile.html">My Profile</a>
+            <a class="dropdown-item" href="profile.html">Profile</a>
             <a class="dropdown-item" href="edit-profile.html">Edit Profile</a>
+
             <a class="dropdown-item" href="{{ route('logout') }}"
                onclick="event.preventDefault();
                                                      document.getElementById('logout-form').submit();">
@@ -36,7 +37,13 @@
     <div class="dropdown-menu dropdown-menu-right">
         <a class="dropdown-item" href="profile.html">My Profile</a>
         <a class="dropdown-item" href="edit-profile.html">Edit Profile</a>
-        <a class="dropdown-item" href="settings.html">Settings</a>
-        <a class="dropdown-item" href="login.html">Logout</a>
+        <a class="dropdown-item" href="{{ route('logout') }}"
+           onclick="event.preventDefault();
+                                                     document.getElementById('logout-form').submit();">
+            {{ __('Logout') }}
+            <form id="logout-form" action="{{ route('logout') }}" method="POST" style="display: none;">
+                @csrf
+            </form>
+        </a>
     </div>
 </div>

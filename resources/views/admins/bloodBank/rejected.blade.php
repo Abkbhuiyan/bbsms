@@ -1,5 +1,8 @@
 @extends('layouts.admin.master')
-@section('title','Pending Blood Banks List')
+@section('title','Rejected/Banned Blood Banks')
+@section('custom_js')
+    <script src="{{asset('assets/js/bb_search.js')}}"></script>
+@endsection
 @section('content')
     <div class="row">
         <div class="col-sm-8 col-6">
@@ -10,21 +13,23 @@
         </div>
     </div>
     <div class="row filter-row">
+
         <div class="col-sm-6 col-md-5 col-lg-5 col-xl-5 col-12">
             <div class="form-group form-focus">
                 <label class="focus-label">Blood Bank Name</label>
-                <input type="text" class="form-control floating">
+                <input required name="searchByName" cus-status="rejected" id="searchByName" type="text" cus-url="{{route('bloodBank.searchByName')}}" class="form-control floating" >
             </div>
         </div>
         <div class="col-sm-6 col-md-5 col-lg-5 col-xl-5 col-12">
             <div class="form-group form-focus">
-                <label class="focus-label">Blood Registration Number</label>
-                <input type="text" class="form-control floating">
+                <label class="focus-label">Blood Bank RegistrationNumber</label>
+                <input required name="searchByReg" cus-status="rejected" id="searchByReg" type="text" cus-url1="{{route('bloodBank.searchByReg')}}" class="form-control floating">
             </div>
         </div>
         <div class="col-sm-6 col-md-2 col-lg-2 col-xl-2 col-12">
-            <a href="#" class="btn btn-success btn-block"> Search </a>
+            <button class="btn btn-success btn-block" type="submit"> Search </button>
         </div>
+
     </div>
     <div class="row">
         <div class="col-md-12">
@@ -40,7 +45,7 @@
 
                     </tr>
                     </thead>
-                    <tbody>
+                    <tbody id="searchData">
                     @foreach($bloodBanks as $bloodBank)
                         <tr>
                             <td>

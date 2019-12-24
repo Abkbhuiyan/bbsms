@@ -1,53 +1,7 @@
 @extends('layouts.admin.master')
 @section('title','Approved Blood Banks List')
 @section('custom_js')
-{{--<script>--}}
-{{--    $(function () {--}}
-{{--        $(document).on('keyup','#searchByName',function(){--}}
-{{--            let name = $('#searchByName').val();--}}
-{{--            if(name !=''){--}}
-{{--                //alert(name);--}}
-{{--                let url = " {{route('bloodBank.searchByName')}}";--}}
-{{--                $.ajax({--}}
-{{--                    url:url,--}}
-{{--                    data:{--}}
-{{--                        name:name,--}}
-{{--                    },--}}
-{{--                    type: 'get',--}}
-{{--                    dataType: "json",--}}
-{{--                    success: function (response) {--}}
-{{--                       $('#searchData').html(response.result);--}}
-{{--                    }--}}
-{{--                });--}}
-{{--            }--}}
-{{--        });--}}
-{{--    });--}}
-
-{{--</script>--}}
-{{--<script>--}}
-{{--    $(function () {--}}
-{{--        $(document).on('keyup','#searchByReg',function(){--}}
-{{--            let name = $('#searchByReg').val();--}}
-{{--            if(name !=''){--}}
-{{--                //alert(name);--}}
-{{--                let url = " {{route('bloodBank.searchByReg')}}";--}}
-{{--                $.ajax({--}}
-{{--                    url:url,--}}
-{{--                    data:{--}}
-{{--                        name:name,--}}
-{{--                    },--}}
-{{--                    type: 'get',--}}
-{{--                    dataType: "json",--}}
-{{--                    success: function (response) {--}}
-{{--                        $('#searchData').html(response.result);--}}
-{{--                    }--}}
-{{--                });--}}
-{{--            }--}}
-{{--        });--}}
-{{--    });--}}
-
-{{--</script>--}}
-<script src="{{asset('assets/js/search.js')}}"></script>
+<script src="{{asset('assets/js/bb_search.js')}}"></script>
 @endsection
 @section('content')
     <div class="row">
@@ -64,13 +18,13 @@
             <div class="col-sm-6 col-md-5 col-lg-5 col-xl-5 col-12">
                 <div class="form-group form-focus">
                     <label class="focus-label">Blood Bank Name</label>
-                    <input required name="searchByName" id="searchByName" type="text" cus-url="{{route('bloodBank.searchByName')}}" class="form-control floating" >
+                    <input required name="searchByName" cus-status="active" id="searchByName" type="text" cus-url="{{route('bloodBank.searchByName')}}" class="form-control floating" >
                 </div>
             </div>
             <div class="col-sm-6 col-md-5 col-lg-5 col-xl-5 col-12">
                 <div class="form-group form-focus">
                     <label class="focus-label">Blood Bank RegistrationNumber</label>
-                    <input required name="searchByReg" id="searchByReg" type="text" cus-url1="{{route('bloodBank.searchByReg')}}" class="form-control floating">
+                    <input required name="searchByReg" cus-status="active" id="searchByReg" type="text" cus-url1="{{route('bloodBank.searchByReg')}}" class="form-control floating">
                 </div>
             </div>
             <div class="col-sm-6 col-md-2 col-lg-2 col-xl-2 col-12">

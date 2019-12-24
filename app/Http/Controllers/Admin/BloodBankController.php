@@ -159,12 +159,12 @@ class BloodBankController extends Controller
     }
 
     public function searchByName(Request $request){
-        $bloodBanks= BloodBank::where('name','like','%'.$request->name.'%')->where('status','active')->orderBy('id','DESC')->paginate(10);
+        $bloodBanks= BloodBank::where('name','like','%'.$request->name.'%')->where('status',$request->status)->orderBy('id','DESC')->paginate(10);
         $output='';
         if ($bloodBanks->count()>0){
-
-            foreach ($bloodBanks as $bloodBank) {
-                $output .=" <tr>
+            if($request->status == 'active'){
+                foreach ($bloodBanks as $bloodBank) {
+                    $output .=" <tr>
                             <td>
                                 <a href=\"".route('bloodBank.show',$bloodBank->id)."\" class=\"avatar\">R</a>
                                 <h2><a href=\"".route('bloodBank.show',$bloodBank->id)."\">$bloodBank->name</a></h2>
@@ -178,7 +178,7 @@ class BloodBankController extends Controller
                                     <div class=\"dropdown-menu dropdown-menu-right\">
                                         <a class=\"dropdown-item\" href=\"".route('bloodBank.edit',$bloodBank->id)."\"><i class=\"fa fa-pencil m-r-5\"></i> Edit</a>
                                         <form method=\"post\" action=\" ".route('bloodBank.destroy',$bloodBank->id)." \">                     
-                                            <input type=\"hidden\" name=\"_token\" value=\"PoHVUjujf2I78xEpFSzV7Cf1vTPBiULUrJTuXJhZ\">   
+                                            <input type=\"hidden\" name=\"_token\" value=\"".csrf_token()."\">   
                                              <input type=\"hidden\" name=\"_method\" value=\"delete\">   
                                             <button class=\"dropdown-item fa fa-trash-o m-r-5\" onclick=\"return confirm('Are you confirm to delete?')\"> Delete</button>
                                         </form>
@@ -186,19 +186,76 @@ class BloodBankController extends Controller
                                 </div>
                             </td>
                         </tr>";
-           }
+                }
+            }
+            if($request->status == 'pending'){
+                foreach($bloodBanks as $bloodBank){
+                    $output .= "<tr>
+                            <td>
+                                <a href=\"".route('bloodBank.show',$bloodBank->id)."\" class=\"avatar\">R</a>
+                                <h2><a href=\"".route('bloodBank.show',$bloodBank->id)."\">$bloodBank->name</a></h2>
+                            </td>
+                            <td>$bloodBank->hospital_approval_number</td>
+                            <td>$bloodBank->address</td>
+                            <td>$bloodBank->email</td>
+                            <td >
+                                <form method=\"post\" action=\"".route('bloodBank.updateRequest',$bloodBank->id)."\">
+                                     <input type=\"hidden\" name=\"_token\" value=\"".csrf_token()."\">   
+                                     <input type=\"hidden\" name=\"_method\" value=\"put\"> 
+                                    <input type=\"hidden\" value=\"active\" name=\"status\" id=\"\" >
+                                    <input type=\"hidden\" value=\"2\" name=\"approved_by\" id=\"\" >
+                                    <button class=\"btn btn-info fa fa-check-circle m-r-5\" onclick=\"return confirm('Are you confirm to approve the request?')\"> Approve</button>
+                                </form>
+                            </td>
+                            <td >
+                                <form method=\"post\" action=\"{{route('bloodBank.updateRequest',$bloodBank->id) }}\">
+                                    <input type=\"hidden\" name=\"_token\" value=\"".csrf_token()."\">   
+                                    <input type=\"hidden\" name=\"_method\" value=\"put\"> 
+                                    <input type=\"hidden\" value=\"rejected\" name=\"status\" id=\"\" >
+                                    <input type=\"hidden\" value=\"2\" name=\"approved_by\" id=\"\" >
+                                    <button class=\"btn  btn-outline-secondary fa fa-ban m-r-5\" onclick=\"return confirm('Are you confirm that you want to reject the request?')\"> Reject</button>
+                                </form>
+                            </td>
+
+                        </tr>";
+                }
+            }
+            if($request->status == 'rejected'){
+                foreach($bloodBanks as $bloodBank){
+                    $output .= "<tr>
+                            <td>
+                                <a href=\"".route('bloodBank.show',$bloodBank->id)."\" class=\"avatar\">R</a>
+                                <h2><a href=\"".route('bloodBank.show',$bloodBank->id)."\">$bloodBank->name</a></h2>
+                            </td>
+                            <td>$bloodBank->hospital_approval_number</td>
+                            <td>$bloodBank->address</td>
+                            <td>$bloodBank->email</td>
+                            <td >
+                                <form method=\"post\" action=\"".route('bloodBank.updateRequest',$bloodBank->id)."\">
+                                     <input type=\"hidden\" name=\"_token\" value=\"".csrf_token()."\">   
+                                     <input type=\"hidden\" name=\"_method\" value=\"put\"> 
+                                    <input type=\"hidden\" value=\"active\" name=\"status\" id=\"\" >
+                                    <input type=\"hidden\" value=\"2\" name=\"approved_by\" id=\"\" >
+                                    <button class=\"btn btn-info fa fa-check-circle m-r-5\" onclick=\"return confirm('Are you confirm to approve the request?')\"> Approve</button>
+                                </form>
+                            </td>
+                        </tr>";
+                }
+            }
+
+
        }
 
          $data['result'] = $output;
         return json_encode($data);
     }
     public function searchByReg(Request $request){
-        $bloodBanks= BloodBank::where('hospital_approval_number','like','%'.$request->name.'%')->where('status','active')->orderBy('id','DESC')->paginate(10);
+        $bloodBanks= BloodBank::where('hospital_approval_number','like','%'.$request->name.'%')->where('status',$request->status)->orderBy('id','DESC')->paginate(10);
         $output='';
         if ($bloodBanks->count()>0){
-
-            foreach ($bloodBanks as $bloodBank) {
-                $output .=" <tr>
+            if($request->status == 'active'){
+                foreach ($bloodBanks as $bloodBank) {
+                    $output .=" <tr>
                             <td>
                                 <a href=\"".route('bloodBank.show',$bloodBank->id)."\" class=\"avatar\">R</a>
                                 <h2><a href=\"".route('bloodBank.show',$bloodBank->id)."\">$bloodBank->name</a></h2>
@@ -220,7 +277,64 @@ class BloodBankController extends Controller
                                 </div>
                             </td>
                         </tr>";
-           }
+                }
+            }
+            if($request->status == 'pending'){
+                foreach($bloodBanks as $bloodBank){
+                    $output .= "<tr>
+                            <td>
+                                <a href=\"".route('bloodBank.show',$bloodBank->id)."\" class=\"avatar\">R</a>
+                                <h2><a href=\"".route('bloodBank.show',$bloodBank->id)."\">$bloodBank->name</a></h2>
+                            </td>
+                            <td>$bloodBank->hospital_approval_number</td>
+                            <td>$bloodBank->address</td>
+                            <td>$bloodBank->email</td>
+                            <td >
+                                <form method=\"post\" action=\"".route('bloodBank.updateRequest',$bloodBank->id)."\">
+                                     <input type=\"hidden\" name=\"_token\" value=\"".csrf_token()."\">   
+                                     <input type=\"hidden\" name=\"_method\" value=\"put\"> 
+                                    <input type=\"hidden\" value=\"active\" name=\"status\" id=\"\" >
+                                    <input type=\"hidden\" value=\"2\" name=\"approved_by\" id=\"\" >
+                                    <button class=\"btn btn-info fa fa-check-circle m-r-5\" onclick=\"return confirm('Are you confirm to approve the request?')\"> Approve</button>
+                                </form>
+                            </td>
+                            <td >
+                                <form method=\"post\" action=\"{{route('bloodBank.updateRequest',$bloodBank->id) }}\">
+                                    <input type=\"hidden\" name=\"_token\" value=\"".csrf_token()."\">   
+                                    <input type=\"hidden\" name=\"_method\" value=\"put\"> 
+                                    <input type=\"hidden\" value=\"rejected\" name=\"status\" id=\"\" >
+                                    <input type=\"hidden\" value=\"2\" name=\"approved_by\" id=\"\" >
+                                    <button class=\"btn  btn-outline-secondary fa fa-ban m-r-5\" onclick=\"return confirm('Are you confirm that you want to reject the request?')\"> Reject</button>
+                                </form>
+                            </td>
+
+                        </tr>";
+                }
+
+
+            }
+            if($request->status == 'rejected'){
+                foreach($bloodBanks as $bloodBank){
+                    $output .= "<tr>
+                            <td>
+                                <a href=\"".route('bloodBank.show',$bloodBank->id)."\" class=\"avatar\">R</a>
+                                <h2><a href=\"".route('bloodBank.show',$bloodBank->id)."\">$bloodBank->name</a></h2>
+                            </td>
+                            <td>$bloodBank->hospital_approval_number</td>
+                            <td>$bloodBank->address</td>
+                            <td>$bloodBank->email</td>
+                            <td >
+                                <form method=\"post\" action=\"".route('bloodBank.updateRequest',$bloodBank->id)."\">
+                                     <input type=\"hidden\" name=\"_token\" value=\"".csrf_token()."\">   
+                                     <input type=\"hidden\" name=\"_method\" value=\"put\"> 
+                                    <input type=\"hidden\" value=\"active\" name=\"status\" id=\"\" >
+                                    <input type=\"hidden\" value=\"2\" name=\"approved_by\" id=\"\" >
+                                    <button class=\"btn btn-info fa fa-check-circle m-r-5\" onclick=\"return confirm('Are you confirm to approve the request?')\"> Approve</button>
+                                </form>
+                            </td>
+                        </tr>";
+                }
+            }
        }
 
          $data['result'] = $output;

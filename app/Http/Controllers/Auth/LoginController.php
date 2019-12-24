@@ -6,6 +6,7 @@ use App\Http\Controllers\Controller;
 use Illuminate\Foundation\Auth\AuthenticatesUsers;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Validation\ValidationException;
 
 class LoginController extends Controller
 {
@@ -61,7 +62,7 @@ class LoginController extends Controller
     }
 
     public function seekerLogin(Request $request){
-      // dd( $request->all());
+
         $this->validate($request, [
             'email'   => 'required|email',
             'password' => 'required|min:6'
@@ -70,6 +71,7 @@ class LoginController extends Controller
 
             return redirect()->intended('/seeker');
         }
+
         return back()->withInput($request->only('email', 'remember'));
     }
     public function adminLogin(Request $request){
@@ -83,15 +85,23 @@ class LoginController extends Controller
         return back()->withInput($request->only('email', 'remember'));
     }
     public function bloodBankLogin(Request $request){
+        //dd( $request->all());
         $this->validate($request, [
             'email'   => 'required|email',
             'password' => 'required|min:6'
         ]);
         if (Auth::guard('bb')->attempt(['email' => $request->email, 'password' => $request->password], $request->get('remember'))) {
 
-            return redirect()->intended('/bloodBank');
+            return redirect()->intended('/');
         }
-        return back()->withInput($request->only('email', 'remember'));
+       return $this->sendFailedLoginResponse($request);
+        //return back()->withInput($request->only('email', 'remember'));
+    }
+    protected function sendFailedLoginResponse(Request $request)
+    {
+        throw ValidationException::withMessages([
+            $this->username() => [trans('auth.failed')],
+        ]);
     }
     public function medicalOfficerLogin(Request $request){
         $this->validate($request, [

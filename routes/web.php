@@ -18,10 +18,24 @@ Route::view('/', 'welcome');
 Auth::routes();
 Route::get('/login/seeker', 'Auth\LoginController@showSeekerLoginForm');
 Route::post('/login/seeker', 'Auth\LoginController@seekerLogin');
+
+Route::get('/signOut','Auth\LoginController@allLogout')->middleware('auth');
+///blood bank routes
+Route::get('/bloodBank/newBloodBank', 'BloodBank\BloodBankController@create')->name('bloodBank.new');
+Route::post('/bloodBank/newBloodBank', 'BloodBank\BloodBankController@store')->name('bloodBank.save');
+Route::get('/login/bb', 'Auth\LoginController@showBloodBankLoginForm')->name('bloodBank.login');
+Route::post('/login/bb', 'Auth\LoginController@bloodBankLogin');
+Route::middleware('auth:bb')->prefix('bloodBank')->namespace('BloodBank')->group(function () {
+    Route::get('/', function () {
+        return view('bloodBanks.dashboard');
+    })->name('bloodBank.dashboard');
+    ///admin manipulation routes
+    Route::resource('bloodBank', 'BloodBankController');
+});
+
+//admin routes
 Route::get('/login/admin', 'Auth\LoginController@showAdminLoginForm');
 Route::post('/login/admin', 'Auth\LoginController@adminLogin');
-Route::get('/signOut','Auth\LoginController@allLogout')->middleware('auth');
-
 Route::middleware('auth:admin')->prefix('admin')->namespace('Admin')->group(function () {
     Route::get('dashboard', function () {
         return view('admins.admin.dashboard');
@@ -46,6 +60,8 @@ Route::middleware('auth:admin')->prefix('admin')->namespace('Admin')->group(func
     Route::put('voluntaryOrganization/updateRequest/{voluntaryOrganization}','VoluntaryOrganizationController@updateRequest')->name('voluntaryOrganization.updateRequest');
     Route::resource('voluntaryOrganization','VoluntaryOrganizationController');
 });
+
+//seeker routes
 Route::middleware('auth:seeker')->get('/seeker', function(){
     return view('bloodSeeker.dashboard');
 });
