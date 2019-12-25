@@ -88,11 +88,17 @@ Route::middleware('auth:admin')->prefix('admin')->namespace('Admin')->group(func
     Route::get('bloodDonor/rejected','BloodDonorController@rejectedDonors')->name('bloodDonor.rejects');
     Route::put('bloodDonor/updateRequest/{bloodDonor}','BloodDonorController@updateRequest')->name('bloodDonor.updateRequest');
     Route::resource('bloodDonor','BloodDonorController');
-    ///
+    ///voluntary org
     Route::get('voluntaryOrganization/requests','VoluntaryOrganizationController@requests')->name('voluntaryOrganization.requests');
     Route::get('voluntaryOrganization/rejected','VoluntaryOrganizationController@rejectedVOrgs')->name('voluntaryOrganization.rejects');
     Route::put('voluntaryOrganization/updateRequest/{voluntaryOrganization}','VoluntaryOrganizationController@updateRequest')->name('voluntaryOrganization.updateRequest');
     Route::resource('voluntaryOrganization','VoluntaryOrganizationController');
+    ///blood donors manipulation routes
+    Route::get('mo/list','MedicalOfficerController@index')->name('medicalOfficer.list');
+    Route::get('mo/requests','MedicalOfficerController@requests')->name('medicalOfficer.requests');
+    Route::get('mo/rejected','MedicalOfficerController@rejectedDonors')->name('medicalOfficer.rejects');
+    Route::put('mo/updateRequest/{medicalOfficer}','MedicalOfficerController@updateRequest')->name('medicalOfficer.updateRequest');
+
 });
 
 //seeker routes

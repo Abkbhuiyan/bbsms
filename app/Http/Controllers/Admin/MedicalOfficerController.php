@@ -3,6 +3,7 @@
 namespace App\Http\Controllers\Admin;
 
 use App\Http\Controllers\Controller;
+use App\MedicalOfficer;
 use Illuminate\Http\Request;
 
 class MedicalOfficerController extends Controller
@@ -14,7 +15,8 @@ class MedicalOfficerController extends Controller
      */
     public function index()
     {
-        //
+        $data['medicalOfficers'] = MedicalOfficer::with('bloodBank')->where('status','active')->paginate(5);
+        return view('admins.medicalOfficer.index',$data);
     }
 
     /**
@@ -81,5 +83,22 @@ class MedicalOfficerController extends Controller
     public function destroy(MedcialOfficer $medcialOfficer)
     {
         //
+    }
+
+    public  function requests(){
+        $data['medicalOfficers'] = MedicalOfficer::with('bloodBank')->where('status','pending')->paginate(5);
+        return view('admins.medicalOfficer.requests',$data);
+    }
+    public  function rejectedDonors(){
+        $data['medicalOfficers'] = MedicalOfficer::with('bloodBank')->where('status','rejected')->paginate(5);
+        return view('admins.medicalOfficer.requests',$data);
+    }
+    public function updateRequest(Request $request, MedicalOfficer $medicalOfficer)
+    {
+        //dd($medicalOfficer);
+        $medicalOfficer->status = $request->status;
+        $medicalOfficer->approved_by = auth()->user()->id;
+        $medicalOfficer->save();
+        return redirect()->back();
     }
 }
