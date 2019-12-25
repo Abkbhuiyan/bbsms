@@ -36,7 +36,11 @@ Route::middleware('auth:mo')->prefix('medicalOfficer')->namespace('MedicalOffice
     Route::get('donor/searchByName','BloodDonorController@searchByName')->name('medicalOfficer.donor.searchByName');
     Route::get('donor/searchByReg','BloodDonorController@searchByReg')->name('medicalOfficer.donor.searchByReg');
     Route::get('donor/searchByPhone','BloodDonorController@searchByReg')->name('medicalOfficer.donor.searchByPhone');
+    Route::get('donor/check/{donorId}','BloodDonorController@checkEligibility')->name('medicalOfficer.donor.check');
+    Route::get('donor/history','MedicalOfficerController@myHistory')->name('medicalOfficer.history');
     Route::get('donor/updateSerologyHistory/{donorId}','MedicalOfficerController@newSerology')->name('medicalOfficer.donor.newSerology');
+    Route::post('donor/updateSerologyHistory/{donorId}','MedicalOfficerController@saveSerology')->name('medicalOfficer.donor.saveSerology');
+    Route::post('donor/transfusionHistory/{donorId}','MedicalOfficerController@saveTransfusion')->name('medicalOfficer.donor.saveTransfusion');
     Route::get('donor/transfusionHistory/{donorId}','MedicalOfficerController@newTransfusion')->name('medicalOfficer.donor.newTransfusion');
 });
 

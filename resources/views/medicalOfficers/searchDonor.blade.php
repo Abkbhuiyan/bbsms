@@ -14,25 +14,20 @@
     </div>
     <div class="row filter-row">
 
-        <div class="col-sm-6 col-md-5 col-lg-5 col-xl-3 col-12">
+        <div class="col-sm-6 col-md-5 col-lg-5 col-xl-5 col-12">
             <div class="form-group form-focus">
                 <label class="focus-label">Search By Name</label>
                 <input required name="searchByName" cus-status="active" id="searchByName" type="text" cus-url="{{route('medicalOfficer.donor.searchByName')}}" class="form-control floating" >
             </div>
         </div>
-        <div class="col-sm-6 col-md-5 col-lg-5 col-xl-3 col-12">
+        <div class="col-sm-6 col-md-5 col-lg-5 col-xl-5 col-12">
             <div class="form-group form-focus">
-                <label class="focus-label">Search By email</label>
+                <label class="focus-label">Search By Phone</label>
                 <input required name="searchByReg" cus-status="active" id="searchByReg" type="text" cus-url1="{{route('medicalOfficer.donor.searchByReg')}}" class="form-control floating">
             </div>
         </div>
-        <div class="col-sm-6 col-md-5 col-lg-5 col-xl-3 col-12">
-            <div class="form-group form-focus">
-                <label class="focus-label">Search By Phone</label>
-                <input required name="searchByPhone" cus-status="active" id="searchByPhone" type="text" cus-url2="{{route('medicalOfficer.donor.searchByPhone')}}" class="form-control floating">
-            </div>
-        </div>
-        <div class="col-sm-6 col-md-2 col-lg-2 col-xl-3 col-12">
+
+        <div class="col-sm-6 col-md-2 col-lg-2 col-xl-2 col-12">
             <button class="btn btn-success btn-block" type="submit"> Search </button>
         </div>
 

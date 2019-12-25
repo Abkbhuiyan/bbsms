@@ -27,7 +27,7 @@ class BloodDonorController extends Controller
      */
     public function create()
     {
-        $data['groups'] = BloodGroup::all();
+        $data['bloodGroups'] = BloodGroup::all();
         return view('admins.bloodDonor.create',$data);
     }
 
@@ -43,19 +43,10 @@ class BloodDonorController extends Controller
             'name' => 'required',
             'email' => 'required|email',
             'phone' => 'required',
-            'dob' => 'required',
-            'blood_group_id' =>'required',
         ]);
-        $bloodDonor = $request->except('_token','password');
-        if($request->has('password')){
-            $bloodDonor['password'] = bcrypt($request->password);
-        }else{
-            $bloodDonor['password'] = bcrypt('123456');
-        }
-        if(!$request->has('status')){
-            $bloodDonor['status'] = 'active';
-        }
-   // dd($bloodDonor);
+        $bloodDonor = $request->except('_token');
+        $bloodDonor['password'] = bcrypt('123456');
+        $bloodDonor['status'] = 'active';
         User::create($bloodDonor);
         session()->flash('successMessage','Blood Donor Successfully Created!');
         return redirect()->route('bloodDonor.index');

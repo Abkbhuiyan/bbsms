@@ -47,7 +47,7 @@ $(function () {
         if(name !=''){
             //alert(name);
             let url = $(this).attr('cus-url2');
-            alert(url);
+            //alert(url);
             let status = $(this).attr('cus-status');
             //alert(status);
             $.ajax({
