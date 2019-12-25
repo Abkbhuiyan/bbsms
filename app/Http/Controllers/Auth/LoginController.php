@@ -117,9 +117,10 @@ class LoginController extends Controller
         ]);
         if (Auth::guard('vOrg')->attempt(['email' => $request->email, 'password' => $request->password,'status' => 'active'], $request->get('remember'))) {
 
-            return redirect()->intended('/voluntaryOrganization');
+            return redirect()->intended('/voluntaryOrganization/dashboard');
         }
-        return back()->withInput($request->only('email', 'remember'));
+        return $this->sendFailedLoginResponse($request);
+       // return back()->withInput($request->only('email', 'remember'));
     }
     protected function sendFailedLoginResponse(Request $request)
     {

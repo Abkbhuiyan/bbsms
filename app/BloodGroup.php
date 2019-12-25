@@ -10,4 +10,10 @@ class BloodGroup extends Model
     public function blodDonor(){
         return $this->hasMany(User::class);
     }
+    public function privateDonor(){
+        return $this->hasMany(User::class);
+    }
+    public function privateRequest(){
+        return $this->hasMany(PrivateBloodRequest::class);
+    }
 }

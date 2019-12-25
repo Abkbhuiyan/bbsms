@@ -22,7 +22,26 @@ Route::post('/login/seeker', 'Auth\LoginController@seekerLogin');
 
 Route::get('/signOut','Auth\LoginController@allLogout')->middleware('auth');
 
+#///voluntary organization routes
+/// here all routes for the voluntary organization is done
+Route::get('/voluntaryOrganization/newVoluntary', 'VoluntaryOrganization\VoluntaryOrganizationController@create')->name('voluntaryOrganization.new');
+Route::post('/voluntaryOrganization/newVoluntary', 'VoluntaryOrganization\VoluntaryOrganizationController@store')->name('voluntaryOrganization.save');
+Route::get('/login/vOrg', 'Auth\LoginController@showVoluntaryOrganizationLoginForm');
+Route::post('/login/vOrg', 'Auth\LoginController@voluntaryOrganizationLogin');
 
+Route::middleware('auth:vOrg')->prefix('voluntaryOrganization')->namespace('VoluntaryOrganization')->group(function () {
+    Route::get('dashboard', 'VoluntaryOrganizationController@index')->name('vOrg.dashboard');
+    Route::get( 'voluntary/add', 'VoluntaryOrganizationController@addVoluntary')->name('vOrg.addVoluntary');
+    Route::post( 'voluntary/new', 'VoluntaryOrganizationController@newVoluntary')->name('vOrg.newVoluntary');
+    Route::get('/voluntary/view','VoluntaryOrganizationController@manageVoluntary')->name('vOrg.manageVoluntary');
+    Route::get( 'voluntary/donor/edit/{id}', 'VoluntaryOrganizationController@editDonor')->name('vOrg.editDonor');
+    Route::put( 'voluntary/donor/edit/{id}', 'VoluntaryOrganizationController@updateDonor')->name('vOrg.updateDonor');
+    Route::delete( 'voluntary/donor/delete/{id}', 'VoluntaryOrganizationController@deleteDonor')->name('vOrg.deleteDonor');
+    Route::get( 'voluntary/requests/new', 'VoluntaryOrganizationController@newRequests')->name('vOrg.newRequests');
+    Route::get( 'voluntary/requests/old', 'VoluntaryOrganizationController@oldRequests')->name('vOrg.oldRequests');
+    Route::put( 'voluntary/requests/update/{privateRequest}', 'VoluntaryOrganizationController@updateRequest')->name('vOrg.updateRequest');
+
+});
 
 ///#                 medical officer routes
 /// all routedtes for medical officers

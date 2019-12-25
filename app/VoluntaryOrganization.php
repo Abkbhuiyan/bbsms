@@ -15,4 +15,8 @@ class VoluntaryOrganization extends Authenticatable
     protected $hidden = [
         'password', 'remember_token',
     ];
+
+    public function privateRequest(){
+        return $this->hasMany(PrivateBloodRequest::class);
+    }
 }
