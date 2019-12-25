@@ -79,10 +79,11 @@ class LoginController extends Controller
             'email'   => 'required|email',
             'password' => 'required|min:6'
         ]);
-        if (Auth::guard('admin')->attempt(['email' => $request->email, 'password' => $request->password], $request->get('remember'))) {
+        if (Auth::guard('admin')->attempt(['email' => $request->email, 'password' => $request->password,'status' => 'active'], $request->get('remember'))) {
             return redirect()->intended('/admin/dashboard');
         }
-        return back()->withInput($request->only('email', 'remember'));
+        return $this->sendFailedLoginResponse($request);
+        //return back()->withInput($request->only('email', 'remember'));
     }
     public function bloodBankLogin(Request $request){
         //dd( $request->all());
@@ -90,7 +91,7 @@ class LoginController extends Controller
             'email'   => 'required|email',
             'password' => 'required|min:6'
         ]);
-        if (Auth::guard('bb')->attempt(['email' => $request->email, 'password' => $request->password], $request->get('remember'))) {
+        if (Auth::guard('bb')->attempt(['email' => $request->email, 'password' => $request->password,'status' => 'active'], $request->get('remember'))) {
 
             return redirect()->intended('/bloodBank/dashboard');
         }
@@ -102,7 +103,7 @@ class LoginController extends Controller
             'email'   => 'required|email',
             'password' => 'required|min:6'
         ]);
-        if (Auth::guard('mo')->attempt(['email' => $request->email, 'password' => $request->password], $request->get('remember'))) {
+        if (Auth::guard('mo')->attempt(['email' => $request->email, 'password' => $request->password,'status' => 'active'], $request->get('remember'))) {
 
             return redirect()->intended('/medicalOfficer/dashboard');
         }
@@ -114,7 +115,7 @@ class LoginController extends Controller
             'email'   => 'required|email',
             'password' => 'required|min:6'
         ]);
-        if (Auth::guard('vOrg')->attempt(['email' => $request->email, 'password' => $request->password], $request->get('remember'))) {
+        if (Auth::guard('vOrg')->attempt(['email' => $request->email, 'password' => $request->password,'status' => 'active'], $request->get('remember'))) {
 
             return redirect()->intended('/voluntaryOrganization');
         }

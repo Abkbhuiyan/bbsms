@@ -98,7 +98,6 @@ Route::middleware('auth:admin')->prefix('admin')->namespace('Admin')->group(func
     Route::get('mo/requests','MedicalOfficerController@requests')->name('medicalOfficer.requests');
     Route::get('mo/rejected','MedicalOfficerController@rejectedDonors')->name('medicalOfficer.rejects');
     Route::put('mo/updateRequest/{medicalOfficer}','MedicalOfficerController@updateRequest')->name('medicalOfficer.updateRequest');
-
 });
 
 //seeker routes
